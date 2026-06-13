@@ -1,9 +1,4 @@
-use axum::{
-    extract::Request,
-    http::HeaderValue,
-    middleware::Next,
-    response::Response,
-};
+use axum::{extract::Request, http::HeaderValue, middleware::Next, response::Response};
 use tower_http::cors::{Any, CorsLayer};
 
 /// Initialise the tracing subscriber with env-filter support.

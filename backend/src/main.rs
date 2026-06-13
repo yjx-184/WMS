@@ -1,7 +1,10 @@
 mod config;
 mod db;
+mod dto;
 mod error;
 mod middleware;
+mod model;
+mod repository;
 mod router;
 
 use axum::middleware::from_fn;
@@ -30,7 +33,5 @@ async fn main() {
         .await
         .expect("Failed to bind TCP listener");
 
-    axum::serve(listener, app)
-        .await
-        .expect("Server crashed");
+    axum::serve(listener, app).await.expect("Server crashed");
 }

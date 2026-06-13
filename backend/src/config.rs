@@ -17,13 +17,11 @@ impl Config {
         // then try relative to CARGO_MANIFEST_DIR (works with --manifest-path).
         let _ = dotenvy::dotenv();
         if let Ok(manifest_dir) = std::env::var("CARGO_MANIFEST_DIR") {
-            let _ = dotenvy::from_filename(
-                std::path::Path::new(&manifest_dir).join(".env"),
-            );
+            let _ = dotenvy::from_filename(std::path::Path::new(&manifest_dir).join(".env"));
         }
 
-        let database_url = std::env::var("DATABASE_URL")
-            .expect("DATABASE_URL must be set in .env or environment");
+        let database_url =
+            std::env::var("DATABASE_URL").expect("DATABASE_URL must be set in .env or environment");
 
         let server_port = std::env::var("SERVER_PORT")
             .unwrap_or_else(|_| "3000".to_string())

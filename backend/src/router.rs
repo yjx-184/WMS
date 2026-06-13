@@ -1,5 +1,5 @@
 use crate::db::AppState;
-use axum::{http::StatusCode, routing::get, Json, Router};
+use axum::{Json, Router, http::StatusCode, routing::get};
 use serde_json::json;
 
 /// Stub handler — every business route returns 501 until its real handler is wired in.
@@ -26,9 +26,15 @@ pub fn create_router(state: AppState) -> Router {
         .route("/api/v1/health", get(health))
         // ── Products (6) ────────────────────────────────────────
         // IMPORTANT: check-sku *before* {id}
-        .route("/api/v1/products", get(not_implemented).post(not_implemented))
+        .route(
+            "/api/v1/products",
+            get(not_implemented).post(not_implemented),
+        )
         .route("/api/v1/products/check-sku", get(not_implemented))
-        .route("/api/v1/products/{id}", get(not_implemented).put(not_implemented))
+        .route(
+            "/api/v1/products/{id}",
+            get(not_implemented).put(not_implemented),
+        )
         .route(
             "/api/v1/products/{id}/status",
             axum::routing::patch(not_implemented),
