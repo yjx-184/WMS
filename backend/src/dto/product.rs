@@ -57,10 +57,10 @@ pub struct ProductListQuery {
     pub page_size: u32,
 }
 
-fn default_page() -> u32 {
+pub(crate) fn default_page() -> u32 {
     1
 }
-fn default_page_size() -> u32 {
+pub(crate) fn default_page_size() -> u32 {
     20
 }
 
