@@ -1,15 +1,13 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import AppLayout from '../components/AppLayout';
+import ProductList from '../pages/ProductList';
 import NotFound from '../pages/NotFound';
 
 /* ------------------------------------------------------------------ */
 /*  Placeholder page components — replaced with real pages in later   */
-/*  tasks (T1.2.1, T2.2.1, T3.2.1, T4.2.x, T5.2.x, T6.2.1).         */
+/*  tasks (T2.2.1, T3.2.1, T4.2.x, T5.2.x, T6.2.1).                  */
 /* ------------------------------------------------------------------ */
 
-function ProductList() {
-  return <div>ProductList placeholder</div>;
-}
 function WarehouseList() {
   return <div>WarehouseList placeholder</div>;
 }
