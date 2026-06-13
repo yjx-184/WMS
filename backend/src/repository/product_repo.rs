@@ -42,8 +42,7 @@ impl ProductRepository {
         let items: Vec<Product> = sqlx::query_as(
             r#"
             SELECT id, sku_code, name, unit, spec, barcode,
-                   status AS "status: ProductStatus",
-                   created_at, updated_at
+                   status, created_at, updated_at
             FROM products
             WHERE ($1::text IS NULL OR sku_code ILIKE $1 OR name ILIKE $1)
               AND ($2::product_status IS NULL OR status = $2)
@@ -66,8 +65,7 @@ impl ProductRepository {
         sqlx::query_as(
             r#"
             SELECT id, sku_code, name, unit, spec, barcode,
-                   status AS "status: ProductStatus",
-                   created_at, updated_at
+                   status, created_at, updated_at
             FROM products
             WHERE id = $1
             "#,
@@ -85,8 +83,7 @@ impl ProductRepository {
         sqlx::query_as(
             r#"
             SELECT id, sku_code, name, unit, spec, barcode,
-                   status AS "status: ProductStatus",
-                   created_at, updated_at
+                   status, created_at, updated_at
             FROM products
             WHERE sku_code = $1
             "#,
@@ -113,9 +110,7 @@ impl ProductRepository {
             r#"
             INSERT INTO products (sku_code, name, unit, spec, barcode)
             VALUES ($1, $2, $3, $4, $5)
-            RETURNING id, sku_code, name, unit, spec, barcode,
-                      status AS "status: ProductStatus",
-                      created_at, updated_at
+            RETURNING *
             "#,
         )
         .bind(sku_code)
@@ -147,9 +142,7 @@ impl ProductRepository {
                 barcode   = $6,
                 updated_at = now()
             WHERE id = $1
-            RETURNING id, sku_code, name, unit, spec, barcode,
-                      status AS "status: ProductStatus",
-                      created_at, updated_at
+            RETURNING *
             "#,
         )
         .bind(id)
@@ -174,9 +167,7 @@ impl ProductRepository {
             SET status     = $2,
                 updated_at = now()
             WHERE id = $1
-            RETURNING id, sku_code, name, unit, spec, barcode,
-                      status AS "status: ProductStatus",
-                      created_at, updated_at
+            RETURNING *
             "#,
         )
         .bind(id)

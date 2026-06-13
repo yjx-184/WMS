@@ -1,4 +1,5 @@
 use crate::db::AppState;
+use crate::handler::product_handler;
 use axum::{Json, Router, http::StatusCode, routing::get};
 use serde_json::json;
 
@@ -28,16 +29,19 @@ pub fn create_router(state: AppState) -> Router {
         // IMPORTANT: check-sku *before* {id}
         .route(
             "/api/v1/products",
-            get(not_implemented).post(not_implemented),
+            get(product_handler::list).post(product_handler::create),
         )
-        .route("/api/v1/products/check-sku", get(not_implemented))
+        .route(
+            "/api/v1/products/check-sku",
+            get(product_handler::check_sku),
+        )
         .route(
             "/api/v1/products/{id}",
-            get(not_implemented).put(not_implemented),
+            get(product_handler::get_by_id).put(product_handler::update),
         )
         .route(
             "/api/v1/products/{id}/status",
-            axum::routing::patch(not_implemented),
+            axum::routing::patch(product_handler::toggle_status),
         )
         // ── Warehouses (5) ──────────────────────────────────────
         .route(

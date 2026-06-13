@@ -34,9 +34,10 @@ fn default_unit() -> String {
 
 #[derive(Debug, Deserialize)]
 pub struct UpdateProductRequest {
-    pub sku_code: Option<String>,
-    pub name: Option<String>,
-    pub unit: Option<String>,
+    pub sku_code: String,
+    pub name: String,
+    #[serde(default = "default_unit")]
+    pub unit: String,
     pub spec: Option<String>,
     pub barcode: Option<String>,
 }

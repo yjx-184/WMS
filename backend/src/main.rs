@@ -2,10 +2,12 @@ mod config;
 mod db;
 mod dto;
 mod error;
+mod handler;
 mod middleware;
 mod model;
 mod repository;
 mod router;
+mod service;
 
 use axum::middleware::from_fn;
 
