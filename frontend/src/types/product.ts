@@ -27,3 +27,20 @@ export interface PaginatedResponse<T> {
   page: number;
   page_size: number;
 }
+
+export interface CreateProductRequest {
+  sku_code: string;
+  name: string;
+  unit: string;
+  spec?: string;
+  barcode?: string;
+}
+
+export interface UpdateProductRequest {
+  sku_code: string;
+  name: string;
+  unit: string;
+  spec?: string;
+  barcode?: string;
+}
+

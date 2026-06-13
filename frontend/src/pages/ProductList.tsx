@@ -11,6 +11,7 @@ import {
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { listProducts, updateProductStatus } from '../api/product';
+import ProductFormModal from './ProductFormModal';
 import type { Product, ProductListQuery, ProductStatus } from '../types/product';
 
 const STATUS_LABELS: Record<ProductStatus, string> = {
@@ -26,6 +27,25 @@ const STATUS_OPTIONS: { value: ProductStatus | ''; label: string }[] = [
 
 export default function ProductList() {
   const queryClient = useQueryClient();
+
+  /* ----- modal state ----- */
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
+  function openCreateModal() {
+    setEditingProduct(null);
+    setModalOpen(true);
+  }
+
+  function openEditModal(product: Product) {
+    setEditingProduct(product);
+    setModalOpen(true);
+  }
+
+  function closeModal() {
+    setModalOpen(false);
+    setEditingProduct(null);
+  }
 
   /* ----- search state ----- */
   const [keyword, setKeyword] = useState('');
@@ -107,9 +127,7 @@ export default function ProductList() {
           <Button
             type="link"
             size="small"
-            onClick={() => {
-              /* T1.2.2 will wire the real edit modal */
-            }}
+            onClick={() => openEditModal(record)}
           >
             编辑
           </Button>
@@ -155,9 +173,7 @@ export default function ProductList() {
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => {
-            /* T1.2.2 will wire the real create modal */
-          }}
+          onClick={openCreateModal}
         >
           新增商品
         </Button>
@@ -177,6 +193,13 @@ export default function ProductList() {
           showTotal: (total) => `共 ${total} 条`,
         }}
         onChange={handleTableChange}
+      />
+
+      {/* Product form modal (create / edit) */}
+      <ProductFormModal
+        open={modalOpen}
+        product={editingProduct}
+        onClose={closeModal}
       />
     </div>
   );
