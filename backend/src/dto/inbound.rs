@@ -70,7 +70,7 @@ pub struct InboundOrderListQuery {
 /* ------------------------------------------------------------------ */
 
 /// Row used in the paginated list — no nested items, includes warehouse name.
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize, sqlx::FromRow)]
 pub struct InboundOrderListItem {
     pub id: Uuid,
     pub order_no: String,
@@ -85,7 +85,7 @@ pub struct InboundOrderListItem {
 }
 
 /// A single line inside the detail response — includes joined names.
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize, sqlx::FromRow)]
 pub struct InboundOrderDetailItem {
     pub id: Uuid,
     pub product_id: Uuid,
