@@ -8,6 +8,12 @@ import type {
   WarehouseStatus,
 } from '../types/warehouse';
 
+/** Fetch a single warehouse by id. */
+export async function getWarehouse(id: string): Promise<Warehouse> {
+  const { data } = await apiClient.get(`/warehouses/${id}`);
+  return data.data;
+}
+
 /** Fetch a paginated, filterable warehouse list. */
 export async function listWarehouses(
   params: WarehouseListQuery,

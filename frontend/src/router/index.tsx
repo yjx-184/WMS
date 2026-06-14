@@ -2,16 +2,14 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import AppLayout from '../components/AppLayout';
 import ProductList from '../pages/ProductList';
 import WarehouseList from '../pages/WarehouseList';
+import LocationList from '../pages/LocationList';
 import NotFound from '../pages/NotFound';
 
 /* ------------------------------------------------------------------ */
 /*  Placeholder page components — replaced with real pages in later   */
-/*  tasks (T3.2.1, T4.2.x, T5.2.x, T6.2.1).                           */
+/*  tasks (T4.2.x, T5.2.x, T6.2.1).                                    */
 /* ------------------------------------------------------------------ */
 
-function LocationList() {
-  return <div>LocationList placeholder</div>;
-}
 function InboundList() {
   return <div>InboundList placeholder</div>;
 }
