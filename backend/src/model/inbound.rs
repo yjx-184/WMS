@@ -14,7 +14,7 @@ pub enum InboundOrderType {
 }
 
 /// Maps to the `inbound_order_status` PostgreSQL enum.
-#[derive(Debug, Clone, Default, Serialize, Deserialize, sqlx::Type)]
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize, sqlx::Type)]
 #[serde(rename_all = "snake_case")]
 #[sqlx(type_name = "inbound_order_status", rename_all = "snake_case")]
 pub enum InboundOrderStatus {

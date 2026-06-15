@@ -158,6 +158,14 @@ impl InboundOrderRepository {
     /* -------------------------------------------------------------- */
 
     pub async fn find_by_id(pool: &PgPool, id: Uuid) -> Result<Option<InboundOrder>, sqlx::Error> {
+        Self::find_by_id_exec(pool, id).await
+    }
+
+    /// Same as `find_by_id` but works inside a transaction.
+    pub async fn find_by_id_exec<'e, E: Executor<'e, Database = Postgres>>(
+        executor: E,
+        id: Uuid,
+    ) -> Result<Option<InboundOrder>, sqlx::Error> {
         sqlx::query_as(
             r#"
             SELECT id, order_no, warehouse_id, order_type, status,
@@ -166,7 +174,7 @@ impl InboundOrderRepository {
             "#,
         )
         .bind(id)
-        .fetch_optional(pool)
+        .fetch_optional(executor)
         .await
     }
 
@@ -233,9 +241,65 @@ impl InboundOrderRepository {
         .await
     }
 
+    /// Compare-and-swap: only update if the current status matches `expected`.
+    /// Returns `None` when the row does not exist or the status has changed,
+    /// which the Service interprets as a concurrency conflict.
+    pub async fn cas_status<'e, E: Executor<'e, Database = Postgres>>(
+        executor: E,
+        id: Uuid,
+        expected: InboundOrderStatus,
+        new_status: InboundOrderStatus,
+        completed_at: Option<chrono::DateTime<chrono::Utc>>,
+    ) -> Result<Option<InboundOrder>, sqlx::Error> {
+        sqlx::query_as(
+            r#"
+            UPDATE inbound_orders
+            SET status       = $3,
+                completed_at = COALESCE($4, completed_at),
+                updated_at   = now()
+            WHERE id      = $1
+              AND status  = $2
+            RETURNING *
+            "#,
+        )
+        .bind(id)
+        .bind(&expected)
+        .bind(&new_status)
+        .bind(completed_at)
+        .fetch_optional(executor)
+        .await
+    }
+
     /* -------------------------------------------------------------- */
     /*  Items                                                           */
     /* -------------------------------------------------------------- */
+
+    /// Fetch the raw item rows for an order (no joins).
+    pub async fn find_items(
+        pool: &PgPool,
+        order_id: Uuid,
+    ) -> Result<Vec<InboundOrderItem>, sqlx::Error> {
+        Self::find_items_exec(pool, order_id).await
+    }
+
+    /// Same as `find_items` but works inside a transaction.
+    pub async fn find_items_exec<'e, E: Executor<'e, Database = Postgres>>(
+        executor: E,
+        order_id: Uuid,
+    ) -> Result<Vec<InboundOrderItem>, sqlx::Error> {
+        sqlx::query_as(
+            r#"
+            SELECT id, order_id, product_id, location_id,
+                   planned_qty, actual_qty, created_at
+            FROM inbound_order_items
+            WHERE order_id = $1
+            ORDER BY created_at
+            "#,
+        )
+        .bind(order_id)
+        .fetch_all(executor)
+        .await
+    }
 
     /// Batch-insert items inside the same transaction as the caller.
     ///

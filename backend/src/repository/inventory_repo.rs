@@ -38,6 +38,16 @@ impl InventoryRepository {
         warehouse_id: Uuid,
         location_id: Uuid,
     ) -> Result<Option<Inventory>, sqlx::Error> {
+        Self::find_by_keys_exec(pool, product_id, warehouse_id, location_id).await
+    }
+
+    /// Same as `find_by_keys` but works inside a transaction.
+    pub async fn find_by_keys_exec<'e, E: Executor<'e, Database = Postgres>>(
+        executor: E,
+        product_id: Uuid,
+        warehouse_id: Uuid,
+        location_id: Uuid,
+    ) -> Result<Option<Inventory>, sqlx::Error> {
         sqlx::query_as(
             r#"
             SELECT id, product_id, warehouse_id, location_id,
@@ -51,7 +61,7 @@ impl InventoryRepository {
         .bind(product_id)
         .bind(warehouse_id)
         .bind(location_id)
-        .fetch_optional(pool)
+        .fetch_optional(executor)
         .await
     }
 
