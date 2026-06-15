@@ -3,16 +3,14 @@ import AppLayout from '../components/AppLayout';
 import ProductList from '../pages/ProductList';
 import WarehouseList from '../pages/WarehouseList';
 import LocationList from '../pages/LocationList';
+import InboundList from '../pages/InboundList';
 import NotFound from '../pages/NotFound';
 
 /* ------------------------------------------------------------------ */
 /*  Placeholder page components — replaced with real pages in later   */
-/*  tasks (T4.2.x, T5.2.x, T6.2.1).                                    */
+/*  tasks (T4.2.2, T4.2.3, T5.2.x, T6.2.1).                           */
 /* ------------------------------------------------------------------ */
 
-function InboundList() {
-  return <div>InboundList placeholder</div>;
-}
 function InboundForm() {
   return <div>InboundForm placeholder</div>;
 }
