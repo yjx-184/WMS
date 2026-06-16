@@ -1,6 +1,12 @@
 import apiClient from './client';
 import type { PaginatedResponse } from '../types/product';
-import type { InboundOrderListItem, InboundOrderListQuery } from '../types/inbound';
+import type {
+  CreateInboundOrderRequest,
+  InboundOrderDetail,
+  InboundOrderListItem,
+  InboundOrderListQuery,
+  UpdateInboundOrderRequest,
+} from '../types/inbound';
 
 export async function listInboundOrders(
   params: InboundOrderListQuery,
@@ -8,5 +14,26 @@ export async function listInboundOrders(
   const { data } = await apiClient.get('/inbound-orders', { params });
   return data.data;
 }
+
+export async function getInboundOrder(id: string): Promise<InboundOrderDetail> {
+  const { data } = await apiClient.get(`/inbound-orders/${id}`);
+  return data.data;
+}
+
+export async function createInboundOrder(
+  req: CreateInboundOrderRequest,
+): Promise<InboundOrderDetail> {
+  const { data } = await apiClient.post('/inbound-orders', req);
+  return data.data;
+}
+
+export async function updateInboundOrder(
+  id: string,
+  req: UpdateInboundOrderRequest,
+): Promise<InboundOrderDetail> {
+  const { data } = await apiClient.put(`/inbound-orders/${id}`, req);
+  return data.data;
+}
+
 
 

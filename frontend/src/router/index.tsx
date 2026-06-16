@@ -4,19 +4,14 @@ import ProductList from '../pages/ProductList';
 import WarehouseList from '../pages/WarehouseList';
 import LocationList from '../pages/LocationList';
 import InboundList from '../pages/InboundList';
+import InboundForm from '../pages/InboundForm';
 import NotFound from '../pages/NotFound';
 
 /* ------------------------------------------------------------------ */
 /*  Placeholder page components — replaced with real pages in later   */
-/*  tasks (T4.2.2, T4.2.3, T5.2.x, T6.2.1).                           */
+/*  tasks (T4.2.3, T5.2.x, T6.2.1).                                    */
 /* ------------------------------------------------------------------ */
 
-function InboundForm() {
-  return <div>InboundForm placeholder</div>;
-}
-function InboundDetail() {
-  return <div>InboundDetail placeholder</div>;
-}
 function OutboundList() {
   return <div>OutboundList placeholder</div>;
 }
@@ -52,7 +47,7 @@ export const router = createBrowserRouter([
       /* inbound */
       { path: 'inbounds', element: <InboundList /> },
       { path: 'inbounds/new', element: <InboundForm /> },
-      { path: 'inbounds/:id', element: <InboundDetail /> },
+      { path: 'inbounds/:id', element: <InboundForm /> },
 
       /* outbound */
       { path: 'outbounds', element: <OutboundList /> },
