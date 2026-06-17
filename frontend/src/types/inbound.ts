@@ -74,3 +74,11 @@ export interface UpdateInboundOrderRequest {
   items: CreateInboundItemRequest[];
 }
 
+export interface CompleteInboundItemRequest {
+  item_id: string;
+  actual_qty: number;
+}
+
+export interface CompleteInboundRequest {
+  items: CompleteInboundItemRequest[];
+}

@@ -5,6 +5,7 @@ import WarehouseList from '../pages/WarehouseList';
 import LocationList from '../pages/LocationList';
 import InboundList from '../pages/InboundList';
 import InboundForm from '../pages/InboundForm';
+import InboundDetail from '../pages/InboundDetail';
 import NotFound from '../pages/NotFound';
 
 /* ------------------------------------------------------------------ */
@@ -47,7 +48,7 @@ export const router = createBrowserRouter([
       /* inbound */
       { path: 'inbounds', element: <InboundList /> },
       { path: 'inbounds/new', element: <InboundForm /> },
-      { path: 'inbounds/:id', element: <InboundForm /> },
+      { path: 'inbounds/:id', element: <InboundDetail /> },
 
       /* outbound */
       { path: 'outbounds', element: <OutboundList /> },

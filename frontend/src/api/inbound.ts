@@ -35,5 +35,15 @@ export async function updateInboundOrder(
   return data.data;
 }
 
+export async function completeInboundOrder(
+  id: string,
+  req: { items: { item_id: string; actual_qty: number }[] },
+): Promise<InboundOrderDetail> {
+  const { data } = await apiClient.post(`/inbound-orders/${id}/complete`, req);
+  return data.data;
+}
 
-
+export async function cancelInboundOrder(id: string): Promise<InboundOrderDetail> {
+  const { data } = await apiClient.post(`/inbound-orders/${id}/cancel`);
+  return data.data;
+}
