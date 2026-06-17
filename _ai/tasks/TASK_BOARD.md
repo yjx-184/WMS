@@ -56,11 +56,11 @@ Epic 0 (基础设施)
 ## 当前执行状态
 
 - 当前 Epic：Epic 5 — 出库管理
-- 当前进度：1/7 Completed
-- 最近通过 Review：TASK_BOARD.md / T5.1.1
-- 已映射完成任务：T0.1.1、T0.1.2、T0.1.3、T0.2.1、T0.2.2、T0.3.1、T0.3.2、T0.3.3、T0.3.4、T0.3.5、T0.4.1、T0.4.2、T0.4.3、T1.1.1、T1.1.2、T1.2.1、T1.2.2、T2.1.1、T2.1.2、T2.2.1、T3.1.1、T3.1.2、T3.2.1、T4.1.1、T4.1.2、T4.1.3、T4.1.4、T4.2.1、T4.2.2、T4.2.3、T5.1.1
-- 下一任务：TASK_BOARD.md / T5.1.2 实现 OutboundOrder Repository
-- 注意：T5.1.1 已通过 Review；TASK_BOARD.md / T5.1.2 依赖已满足，必须先生成派发包并经过 Review Gate，不得跳过进入后续任务
+- 当前进度：2/7 Completed
+- 最近通过 Review：TASK_BOARD.md / T5.1.2
+- 已映射完成任务：T0.1.1、T0.1.2、T0.1.3、T0.2.1、T0.2.2、T0.3.1、T0.3.2、T0.3.3、T0.3.4、T0.3.5、T0.4.1、T0.4.2、T0.4.3、T1.1.1、T1.1.2、T1.2.1、T1.2.2、T2.1.1、T2.1.2、T2.2.1、T3.1.1、T3.1.2、T3.2.1、T4.1.1、T4.1.2、T4.1.3、T4.1.4、T4.2.1、T4.2.2、T4.2.3、T5.1.1、T5.1.2
+- 下一任务：TASK_BOARD.md / T5.1.3 实现 OutboundService
+- 注意：T5.1.2 已通过 Review；TASK_BOARD.md / T5.1.3 依赖已满足，必须先生成派发包并经过 Review Gate，不得跳过进入后续任务
 
 ### Feature 0.1 — 项目脚手架
 
@@ -192,7 +192,7 @@ Epic 0 (基础设施)
 | ID | Status | Priority | Owner | Reviewer | 任务 | 工时 | 验收标准 | 依赖 |
 |----|--------|----------|-------|----------|------|------|----------|------|
 | T5.1.1 | Done | P0 | Unassigned | Codex | 定义 OutboundOrder / OutboundOrderItem Model/DTO | 1.5h | `model/outbound.rs` 含 `OutboundOrder`/`OutboundOrderItem`。status 枚举仅 `draft/completed/cancelled`；order_type 枚举 `sales/manual/scrap`。`dto/` 含创建、更新、完成请求，列表响应 | T4.1.1 |
-| T5.1.2 | Todo | P0 | Unassigned | Codex | 实现 OutboundOrder Repository | 2h | `repository/outbound_repo.rs` 含 `list`/`find_by_id_with_items`/`insert_order`/`insert_items`/`update_order`/`delete_items`/`update_status`/`update_item_actual` | T5.1.1 |
+| T5.1.2 | Done | P0 | Unassigned | Codex | 实现 OutboundOrder Repository | 2h | `repository/outbound_repo.rs` 含 `list`/`find_by_id_with_items`/`insert_order`/`insert_items`/`update_order`/`delete_items`/`update_status`/`update_item_actual` | T5.1.1 |
 | T5.1.3 | Todo | P0 | Unassigned | Codex | 实现 OutboundService | 2h | `complete()`：校验 draft → 遍历明细调 `decrease_stock()` → 库存不足返回 422+缺货商品列表 → 写 actual_quantity → 更新 completed → 事务内；`cancel()`：draft→cancelled；completed 取消需回滚库存。严禁 lock/unlock/approve | T5.1.2, T4.1.3 |
 | T5.1.4 | Todo | P0 | Unassigned | Codex | 实现 OutboundOrder Handler 并注册路由 | 1.5h | `GET /api/v1/outbound-orders` 列表；`GET /api/v1/outbound-orders/{id}` 详情；`POST` 创建；`PUT /{id}` 更新；`POST /{id}/complete` 完成；`POST /{id}/cancel` 取消。无 submit/approve 端点 | T5.1.3 |
 
