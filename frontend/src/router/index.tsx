@@ -7,19 +7,14 @@ import InboundList from '../pages/InboundList';
 import InboundForm from '../pages/InboundForm';
 import InboundDetail from '../pages/InboundDetail';
 import OutboundList from '../pages/OutboundList';
+import OutboundForm from '../pages/OutboundForm';
 import NotFound from '../pages/NotFound';
 
 /* ------------------------------------------------------------------ */
 /*  Placeholder page components — replaced with real pages in later   */
-/*  tasks (T5.2.2, T5.2.3, T6.2.1).                                    */
+/*  tasks (T5.2.3, T6.2.1).                                            */
 /* ------------------------------------------------------------------ */
 
-function OutboundForm() {
-  return <div>OutboundForm placeholder</div>;
-}
-function OutboundDetail() {
-  return <div>OutboundDetail placeholder</div>;
-}
 function InventoryQuery() {
   return <div>InventoryQuery placeholder</div>;
 }
@@ -51,7 +46,7 @@ export const router = createBrowserRouter([
       /* outbound */
       { path: 'outbounds', element: <OutboundList /> },
       { path: 'outbounds/new', element: <OutboundForm /> },
-      { path: 'outbounds/:id', element: <OutboundDetail /> },
+      { path: 'outbounds/:id', element: <OutboundForm /> },
 
       /* inventory */
       { path: 'inventory', element: <InventoryQuery /> },
