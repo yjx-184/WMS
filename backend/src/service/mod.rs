@@ -3,4 +3,5 @@ pub mod inventory_service;
 pub mod location_service;
 pub mod outbound_service;
 pub mod product_service;
+pub mod stock_query_service;
 pub mod warehouse_service;
