@@ -1,5 +1,7 @@
 use crate::db::AppState;
-use crate::handler::{inbound_handler, location_handler, product_handler, warehouse_handler};
+use crate::handler::{
+    inbound_handler, location_handler, outbound_handler, product_handler, warehouse_handler,
+};
 use axum::{Json, Router, http::StatusCode, routing::get};
 use serde_json::json;
 
@@ -89,19 +91,19 @@ pub fn create_router(state: AppState) -> Router {
         // ── Outbound orders (6) ─────────────────────────────────
         .route(
             "/api/v1/outbound-orders",
-            get(not_implemented).post(not_implemented),
+            get(outbound_handler::list).post(outbound_handler::create),
         )
         .route(
             "/api/v1/outbound-orders/{id}",
-            get(not_implemented).put(not_implemented),
+            get(outbound_handler::get_by_id).put(outbound_handler::update),
         )
         .route(
             "/api/v1/outbound-orders/{id}/complete",
-            axum::routing::post(not_implemented),
+            axum::routing::post(outbound_handler::complete),
         )
         .route(
             "/api/v1/outbound-orders/{id}/cancel",
-            axum::routing::post(not_implemented),
+            axum::routing::post(outbound_handler::cancel),
         )
         // ── Inventory (2) ───────────────────────────────────────
         .route("/api/v1/inventory", get(not_implemented))
