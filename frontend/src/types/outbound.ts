@@ -74,3 +74,13 @@ export interface UpdateOutboundOrderRequest {
   items: CreateOutboundItemRequest[];
 }
 
+export interface CompleteOutboundItemRequest {
+  item_id: string;
+  actual_qty: number;
+}
+
+export interface CompleteOutboundRequest {
+  items: CompleteOutboundItemRequest[];
+}
+
+

@@ -8,6 +8,7 @@ import InboundForm from '../pages/InboundForm';
 import InboundDetail from '../pages/InboundDetail';
 import OutboundList from '../pages/OutboundList';
 import OutboundForm from '../pages/OutboundForm';
+import OutboundDetail from '../pages/OutboundDetail';
 import NotFound from '../pages/NotFound';
 
 /* ------------------------------------------------------------------ */
@@ -46,7 +47,8 @@ export const router = createBrowserRouter([
       /* outbound */
       { path: 'outbounds', element: <OutboundList /> },
       { path: 'outbounds/new', element: <OutboundForm /> },
-      { path: 'outbounds/:id', element: <OutboundForm /> },
+      { path: 'outbounds/:id', element: <OutboundDetail /> },
+      { path: 'outbounds/:id/edit', element: <OutboundForm /> },
 
       /* inventory */
       { path: 'inventory', element: <InventoryQuery /> },

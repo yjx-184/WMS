@@ -116,7 +116,13 @@ export default function OutboundList() {
           <Button
             type="link"
             size="small"
-            onClick={() => navigate(`/outbounds/${r.id}`)}
+            onClick={() =>
+              navigate(
+                r.status === 'draft'
+                  ? `/outbounds/${r.id}/edit`
+                  : `/outbounds/${r.id}`,
+              )
+            }
           >
             {r.status === 'draft' ? '编辑' : '查看'}
           </Button>

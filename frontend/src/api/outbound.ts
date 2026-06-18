@@ -34,3 +34,17 @@ export async function updateOutboundOrder(
   const { data } = await apiClient.put(`/outbound-orders/${id}`, req);
   return data.data;
 }
+
+export async function completeOutboundOrder(
+  id: string,
+  req: { items: { item_id: string; actual_qty: number }[] },
+): Promise<OutboundOrderDetail> {
+  const { data } = await apiClient.post(`/outbound-orders/${id}/complete`, req);
+  return data.data;
+}
+
+export async function cancelOutboundOrder(id: string): Promise<OutboundOrderDetail> {
+  const { data } = await apiClient.post(`/outbound-orders/${id}/cancel`);
+  return data.data;
+}
+
