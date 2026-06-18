@@ -1,17 +1,10 @@
 use crate::db::AppState;
 use crate::handler::{
-    inbound_handler, location_handler, outbound_handler, product_handler, warehouse_handler,
+    inbound_handler, inventory_handler, location_handler, outbound_handler, product_handler,
+    warehouse_handler,
 };
-use axum::{Json, Router, http::StatusCode, routing::get};
+use axum::{Json, Router, routing::get};
 use serde_json::json;
-
-/// Stub handler — every business route returns 501 until its real handler is wired in.
-async fn not_implemented() -> (StatusCode, Json<serde_json::Value>) {
-    (
-        StatusCode::NOT_IMPLEMENTED,
-        Json(json!({"code": 50100, "data": null, "message": "not implemented"})),
-    )
-}
 
 /// Health-check handler (identical to the previous inline version).
 pub async fn health() -> Json<serde_json::Value> {
@@ -106,8 +99,11 @@ pub fn create_router(state: AppState) -> Router {
             axum::routing::post(outbound_handler::cancel),
         )
         // ── Inventory (2) ───────────────────────────────────────
-        .route("/api/v1/inventory", get(not_implemented))
-        .route("/api/v1/inventory-transactions", get(not_implemented))
+        .route("/api/v1/inventory", get(inventory_handler::query_inventory))
+        .route(
+            "/api/v1/inventory-transactions",
+            get(inventory_handler::query_transactions),
+        )
         // ── State & middleware (applied in main.rs) ─────────────
         .with_state(state)
 }

@@ -1,7 +1,7 @@
 ﻿# TASK_BOARD — WMS MVP 任务看板（最终版）
 
 > 生成日期：2026-06-10  
-> 更新日期：2026-06-18（T6.1.1 Review 通过）  
+> 更新日期：2026-06-18（T6.1.2 Review 通过）  
 > 总估算工时：约 54 小时（按单人全职约 2 周）  
 > 组织形式：Epic → Feature → Task  
 > 每个 Task 均独立可验收，粒度控制在 1~3 小时
@@ -56,11 +56,11 @@ Epic 0 (基础设施)
 ## 当前执行状态
 
 - 当前 Epic：Epic 6 — 库存查询
-- 当前进度：1/3 Completed
-- 最近通过 Review：TASK_BOARD.md / T6.1.1
-- 已映射完成任务：T0.1.1、T0.1.2、T0.1.3、T0.2.1、T0.2.2、T0.3.1、T0.3.2、T0.3.3、T0.3.4、T0.3.5、T0.4.1、T0.4.2、T0.4.3、T1.1.1、T1.1.2、T1.2.1、T1.2.2、T2.1.1、T2.1.2、T2.2.1、T3.1.1、T3.1.2、T3.2.1、T4.1.1、T4.1.2、T4.1.3、T4.1.4、T4.2.1、T4.2.2、T4.2.3、T5.1.1、T5.1.2、T5.1.3、T5.1.4、T5.2.1、T5.2.2、T5.2.3、T6.1.1
-- 下一任务：TASK_BOARD.md / T6.1.2 实现 Inventory Handler 并注册路由
-- 注意：T6.1.1 已通过 Review；TASK_BOARD.md / T6.1.2 依赖已满足，必须先生成派发包并经过 Review Gate，不得跳过进入后续任务
+- 当前进度：2/3 Completed
+- 最近通过 Review：TASK_BOARD.md / T6.1.2
+- 已映射完成任务：T0.1.1、T0.1.2、T0.1.3、T0.2.1、T0.2.2、T0.3.1、T0.3.2、T0.3.3、T0.3.4、T0.3.5、T0.4.1、T0.4.2、T0.4.3、T1.1.1、T1.1.2、T1.2.1、T1.2.2、T2.1.1、T2.1.2、T2.2.1、T3.1.1、T3.1.2、T3.2.1、T4.1.1、T4.1.2、T4.1.3、T4.1.4、T4.2.1、T4.2.2、T4.2.3、T5.1.1、T5.1.2、T5.1.3、T5.1.4、T5.2.1、T5.2.2、T5.2.3、T6.1.1、T6.1.2
+- 下一任务：TASK_BOARD.md / T6.2.1 实现库存查询页面
+- 注意：T6.1.2 已通过 Review；TASK_BOARD.md / T6.2.1 依赖已满足，必须先生成派发包并经过 Review Gate，不得跳过进入后续任务
 
 ### Feature 0.1 — 项目脚手架
 
@@ -216,7 +216,7 @@ Epic 0 (基础设施)
 | ID | Status | Priority | Owner | Reviewer | 任务 | 工时 | 验收标准 | 依赖 |
 |----|--------|----------|-------|----------|------|------|----------|------|
 | T6.1.1 | Done | P0 | Unassigned | Codex | 实现 StockQueryService | 1.5h | `service/stock_query_service.rs` 含 `query_inventory`（多条件过滤+分页，JOIN products/warehouses/locations 查名称，available=quantity）、`query_transactions`（仅后端内部使用，按条件过滤+分页。change_type 仅 inbound/outbound） | T4.1.2 |
-| T6.1.2 | Todo | P0 | Unassigned | Codex | 实现 Inventory Handler 并注册路由 | 1.5h | `GET /api/v1/inventory` 库存查询（product_id/warehouse_id/location_id/keyword/page）；`GET /api/v1/inventory-transactions` 流水查询（仅后端/测试用，无前端页面） | T6.1.1 |
+| T6.1.2 | Done | P0 | Unassigned | Codex | 实现 Inventory Handler 并注册路由 | 1.5h | `GET /api/v1/inventory` 库存查询（product_id/warehouse_id/location_id/keyword/page）；`GET /api/v1/inventory-transactions` 流水查询（仅后端/测试用，无前端页面） | T6.1.1 |
 
 ### Feature 6.2 — 前端
 
