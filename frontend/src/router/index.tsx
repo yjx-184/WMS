@@ -6,16 +6,14 @@ import LocationList from '../pages/LocationList';
 import InboundList from '../pages/InboundList';
 import InboundForm from '../pages/InboundForm';
 import InboundDetail from '../pages/InboundDetail';
+import OutboundList from '../pages/OutboundList';
 import NotFound from '../pages/NotFound';
 
 /* ------------------------------------------------------------------ */
 /*  Placeholder page components — replaced with real pages in later   */
-/*  tasks (T4.2.3, T5.2.x, T6.2.1).                                    */
+/*  tasks (T5.2.2, T5.2.3, T6.2.1).                                    */
 /* ------------------------------------------------------------------ */
 
-function OutboundList() {
-  return <div>OutboundList placeholder</div>;
-}
 function OutboundForm() {
   return <div>OutboundForm placeholder</div>;
 }
