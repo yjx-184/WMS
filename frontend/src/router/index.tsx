@@ -9,16 +9,8 @@ import InboundDetail from '../pages/InboundDetail';
 import OutboundList from '../pages/OutboundList';
 import OutboundForm from '../pages/OutboundForm';
 import OutboundDetail from '../pages/OutboundDetail';
+import InventoryQuery from '../pages/InventoryQuery';
 import NotFound from '../pages/NotFound';
-
-/* ------------------------------------------------------------------ */
-/*  Placeholder page components — replaced with real pages in later   */
-/*  tasks (T5.2.3, T6.2.1).                                            */
-/* ------------------------------------------------------------------ */
-
-function InventoryQuery() {
-  return <div>InventoryQuery placeholder</div>;
-}
 
 /* ------------------------------------------------------------------ */
 /*  Route tree                                                         */
