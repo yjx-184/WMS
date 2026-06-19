@@ -1,7 +1,7 @@
 ﻿# TASK_BOARD — WMS MVP 任务看板（最终版）
 
 > 生成日期：2026-06-10  
-> 更新日期：2026-06-19（T8.1.1 Review Approve）
+> 更新日期：2026-06-19（T8.1.2 Review Approve）
 > 总估算工时：约 54 小时（按单人全职约 2 周）  
 > 组织形式：Epic → Feature → Task  
 > 每个 Task 均独立可验收，粒度控制在 1~3 小时
@@ -56,12 +56,12 @@ Epic 0 (基础设施)
 ## 当前执行状态
 
 - 当前 Epic：Epic 8 — Seed Data
-- 当前进度：1/3 Completed
-- 最近通过 Review：TASK_BOARD.md / T8.1.1
-- 最近 Review 结果：TASK_BOARD.md / T8.1.1 Approve
-- 已映射完成任务：T0.1.1、T0.1.2、T0.1.3、T0.2.1、T0.2.2、T0.3.1、T0.3.2、T0.3.3、T0.3.4、T0.3.5、T0.4.1、T0.4.2、T0.4.3、T1.1.1、T1.1.2、T1.2.1、T1.2.2、T2.1.1、T2.1.2、T2.2.1、T3.1.1、T3.1.2、T3.2.1、T4.1.1、T4.1.2、T4.1.3、T4.1.4、T4.2.1、T4.2.2、T4.2.3、T5.1.1、T5.1.2、T5.1.3、T5.1.4、T5.2.1、T5.2.2、T5.2.3、T6.1.1、T6.1.2、T6.2.1、T7.1.1、T7.1.2、T7.1.3、T7.1.4、T8.1.1
-- 下一任务：TASK_BOARD.md / T8.1.2 实现 Seed 运行入口
-- 注意：T8.1.1 已通过 Review；下一轮仅允许进入 T8.1.2，不得跳到 T8.1.3
+- 当前进度：2/3 Completed
+- 最近通过 Review：TASK_BOARD.md / T8.1.2
+- 最近 Review 结果：TASK_BOARD.md / T8.1.2 Approve（Fix 后通过）
+- 已映射完成任务：T0.1.1、T0.1.2、T0.1.3、T0.2.1、T0.2.2、T0.3.1、T0.3.2、T0.3.3、T0.3.4、T0.3.5、T0.4.1、T0.4.2、T0.4.3、T1.1.1、T1.1.2、T1.2.1、T1.2.2、T2.1.1、T2.1.2、T2.2.1、T3.1.1、T3.1.2、T3.2.1、T4.1.1、T4.1.2、T4.1.3、T4.1.4、T4.2.1、T4.2.2、T4.2.3、T5.1.1、T5.1.2、T5.1.3、T5.1.4、T5.2.1、T5.2.2、T5.2.3、T6.1.1、T6.1.2、T6.2.1、T7.1.1、T7.1.2、T7.1.3、T7.1.4、T8.1.1、T8.1.2
+- 下一任务：TASK_BOARD.md / T8.1.3 验证 Seed 数据可用性
+- 注意：T8.1.2 已通过 Review；下一轮仅允许进入 T8.1.3
 
 ### Feature 0.1 — 项目脚手架
 
@@ -251,7 +251,7 @@ Epic 0 (基础设施)
 | ID | Status | Priority | Owner | Reviewer | 任务 | 工时 | 验收标准 | 依赖 |
 |----|--------|----------|-------|----------|------|------|----------|------|
 | T8.1.1 | Done | P1 | Unassigned | Codex | 编写 Seed Data SQL 脚本 | 1.5h | `backend/migrations/seed.sql` 含：5 个示例商品（sku_code/name/unit）、1 个默认仓库（主仓库）、4 个默认库位（A-01-01/A-01-02/RECV-01/SHIP-01）。无分类数据 | T0.2.2 |
-| T8.1.2 | Todo | P1 | Unassigned | Codex | 实现 Seed 运行入口 | 1h | `cargo run -- --seed` 或 `POST /api/v1/seed` 一键写入种子数据；启动检测到空数据库自动执行 seed；seed 幂等 | T8.1.1 |
+| T8.1.2 | Done | P1 | Unassigned | Codex | 实现 Seed 运行入口 | 1h | `cargo run -- --seed` 或 `POST /api/v1/seed` 一键写入种子数据；启动检测到空数据库自动执行 seed；seed 幂等 | T8.1.1 |
 | T8.1.3 | Todo | P2 | Unassigned | Codex | 验证 Seed 数据可用性 | 0.5h | Seed 后：商品列表显示 5 个商品、仓库列表显示 1 个仓库、库位列表显示 4 个库位。创建入库单时可选择这些预置数据 | T8.1.2, T4.2.2 |
 
 ---

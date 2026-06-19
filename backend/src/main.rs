@@ -8,11 +8,24 @@ async fn main() {
 
     let config = backend::config::Config::from_env();
 
+    // ── CLI: --seed  ────────────────────────────────────────────
+    let args: Vec<String> = std::env::args().collect();
+    if args.iter().any(|a| a == "--seed") {
+        let pool = backend::db::create_pool(&config).await;
+        backend::seed::seed(&pool).await;
+        println!("Seed complete, exiting.");
+        return;
+    }
+
     println!("Starting WMS backend...");
     println!("DATABASE_URL: {}", config.masked_database_url());
     println!("SERVER_PORT: {}", config.server_port);
 
     let pool = backend::db::create_pool(&config).await;
+
+    // ── Auto-seed on empty DB ───────────────────────────────────
+    backend::seed::seed_if_empty(&pool).await;
+
     let state = backend::db::AppState { pool };
 
     let app = backend::router::create_router(state)
