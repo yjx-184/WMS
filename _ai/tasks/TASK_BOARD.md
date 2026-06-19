@@ -1,7 +1,7 @@
 ﻿# TASK_BOARD — WMS MVP 任务看板（最终版）
 
 > 生成日期：2026-06-10  
-> 更新日期：2026-06-19（T7.1.1 Review 通过）
+> 更新日期：2026-06-19（T7.1.2 Review Reject）
 > 总估算工时：约 54 小时（按单人全职约 2 周）  
 > 组织形式：Epic → Feature → Task  
 > 每个 Task 均独立可验收，粒度控制在 1~3 小时
@@ -58,9 +58,10 @@ Epic 0 (基础设施)
 - 当前 Epic：Epic 7 — Testing
 - 当前进度：1/4 Completed
 - 最近通过 Review：TASK_BOARD.md / T7.1.1
+- 最近 Review 结果：TASK_BOARD.md / T7.1.2 Reject（需移除非必要业务代码改动后重审）
 - 已映射完成任务：T0.1.1、T0.1.2、T0.1.3、T0.2.1、T0.2.2、T0.3.1、T0.3.2、T0.3.3、T0.3.4、T0.3.5、T0.4.1、T0.4.2、T0.4.3、T1.1.1、T1.1.2、T1.2.1、T1.2.2、T2.1.1、T2.1.2、T2.2.1、T3.1.1、T3.1.2、T3.2.1、T4.1.1、T4.1.2、T4.1.3、T4.1.4、T4.2.1、T4.2.2、T4.2.3、T5.1.1、T5.1.2、T5.1.3、T5.1.4、T5.2.1、T5.2.2、T5.2.3、T6.1.1、T6.1.2、T6.2.1、T7.1.1
 - 下一任务：TASK_BOARD.md / T7.1.2 Inventory Service 单元测试
-- 注意：T7.1.1 已通过 Review；Product API 集成测试已完成。TASK_BOARD.md / T7.1.2 依赖已满足，必须先生成派发包并经过 Review Gate，不得跳过进入后续任务
+- 注意：T7.1.2 本轮 Review 未通过；任务仍停留在 T7.1.2，需先生成 Repair Prompt 并重新 Review，不得进入 T7.1.3
 
 ### Feature 0.1 — 项目脚手架
 
