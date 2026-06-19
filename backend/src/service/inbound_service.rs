@@ -13,6 +13,7 @@ use rust_decimal::Decimal;
 use sqlx::PgPool;
 use uuid::Uuid;
 
+/// 库存流水 `reference_type`：区分"完成入库"与"取消已完成入库"。
 const REF_INBOUND_COMPLETE: &str = "inbound_order_complete";
 const REF_INBOUND_CANCEL: &str = "inbound_order_cancel";
 
@@ -142,9 +143,8 @@ impl InboundService {
             .collect();
         InboundOrderRepository::insert_items(&mut *tx, id, &tuples).await?;
 
-        // CAS no-op: verify the order is still Draft after all writes.
-        // If another transaction completed/cancelled it in the meantime,
-        // cas_status returns None and we roll back the entire update.
+        // 【并发安全】CAS 空操作：确认写入完成后订单仍为 Draft。
+        // 若并发 complete/cancel 已修改状态，cas_status 返回 None → 回滚。
         let verified = InboundOrderRepository::cas_status(
             &mut *tx,
             id,
@@ -241,8 +241,8 @@ impl InboundService {
         InventoryService::increase_stock_in_tx(&mut *tx, &deltas, REF_INBOUND_COMPLETE, order.id)
             .await?;
 
-        // CAS: draft → completed.  If another request already completed/
-        // cancelled this order, cas_status returns None and we roll back.
+        // 【并发安全】CAS: draft → completed。若并发请求已完成/取消此订单，
+        // cas_status 返回 None → 事务整体回滚（库存增加+流水都会撤销）。
         let updated = InboundOrderRepository::cas_status(
             &mut *tx,
             id,

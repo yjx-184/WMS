@@ -6,7 +6,10 @@ use uuid::Uuid;
 pub struct InventoryRepository;
 
 impl InventoryRepository {
-    /// Upsert: insert a new inventory row, or add to the existing quantity.
+    /// 原子增加库存：插入新行或累加已有行。
+    ///
+    /// `ON CONFLICT DO UPDATE SET quantity = quantity + delta` 保证原子性，
+    /// 无需应用层加锁。`RETURNING *` 返回更新后的完整行。
     pub async fn upsert<'e, E: Executor<'e, Database = Postgres>>(
         executor: E,
         product_id: Uuid,
@@ -65,7 +68,10 @@ impl InventoryRepository {
         .await
     }
 
-    /// Decrease inventory quantity (optimistic concurrency check).
+    /// 原子扣减库存（乐观并发控制）。
+    ///
+    /// `WHERE quantity >= delta` 确保库存充足时才扣减。
+    /// 返回 `None` 表示库存不足，由 Service 层决定如何处理。
     pub async fn decrease<'e, E: Executor<'e, Database = Postgres>>(
         executor: E,
         product_id: Uuid,

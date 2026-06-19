@@ -7,6 +7,8 @@ use uuid::Uuid;
 
 pub struct InventoryService;
 
+/// 库存变更描述：在 `(product_id, warehouse_id, location_id)` 三元组上
+/// 增加或减少 `quantity`。
 pub struct StockDelta {
     pub product_id: Uuid,
     pub warehouse_id: Uuid,
@@ -47,9 +49,10 @@ impl InventoryService {
     /*  In-transaction — quantity_before derived from the operation     */
     /* -------------------------------------------------------------- */
 
-    /// Increase stock.  `quantity_before` is computed as
-    /// `after.quantity - delta`, which is always correct because
-    /// `upsert` atomically returns the updated row.
+    /// 在已有事务中增加库存，并写入 `change_type=inbound` 流水。
+    ///
+    /// `quantity_before` = `after.quantity - delta`，从 upsert 原子操作
+    /// 的返回值反推，避免先读后写导致的并发窗口。
     pub async fn increase_stock_in_tx<'e, E>(
         tx: &mut E,
         deltas: &[StockDelta],
@@ -88,8 +91,10 @@ impl InventoryService {
         Ok(())
     }
 
-    /// Decrease stock.  `quantity_before` is computed as
-    /// `after.quantity + delta`.
+    /// 在已有事务中扣减库存，并写入 `change_type=outbound` 流水。
+    ///
+    /// 若库存不足（`decrease` 返回 None），事务回滚并返回 `BusinessRule` 错误。
+    /// `quantity_before` = `after.quantity + delta`。
     pub async fn decrease_stock_in_tx<'e, E>(
         tx: &mut E,
         deltas: &[StockDelta],

@@ -16,7 +16,8 @@ pub async fn setup_test_db() -> PgPool {
     })
     .await;
 
-    // Safety check — panic if not a test database
+    // 【安全保护】执行 `select current_database()` 检查连接的是测试库。
+    // 仅允许数据库名为 `wms_test` 或以 `_test` 结尾，否则 panic 阻止清理。
     let row: (String,) = sqlx::query_as("SELECT current_database()")
         .fetch_one(&pool)
         .await

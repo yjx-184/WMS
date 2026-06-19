@@ -236,8 +236,8 @@ impl OutboundService {
             })
             .collect();
 
-        // Pre-check stock levels inside the tx — produce a detailed
-        // shortage list before attempting the decrease.
+        // 【库存预检查】在扣减前逐行查询可用库存，若不足则生成缺货明细。
+        // 预检查与扣减在同一事务内，避免 TOCTOU 问题。
         let mut shortages: Vec<String> = Vec::new();
         for d in &deltas {
             let available = InventoryRepository::find_by_keys_exec(

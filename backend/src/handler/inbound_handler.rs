@@ -15,6 +15,7 @@ use uuid::Uuid;
 /*  Response helpers                                                   */
 /* ------------------------------------------------------------------ */
 
+/// 统一成功响应包装：将业务数据放入 `{code:0, data, message:"ok"}`。
 fn ok_body(data: impl Serialize) -> Json<Value> {
     Json(json!({"code": 0, "data": data, "message": "ok"}))
 }

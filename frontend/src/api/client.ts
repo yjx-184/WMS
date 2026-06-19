@@ -11,11 +11,16 @@ const apiClient = axios.create({
 });
 
 /* ------------------------------------------------------------------ */
-/*  Response interceptor                                               */
+/*  响应拦截器                                                         */
+/*                                                                     */
+/*  所有业务 API 响应格式为 `{code, data, message}`。                  */
+/*  - code === 0: 成功，返回 response（调用方从 data.data 取数据）     */
+/*  - code !== 0: 业务错误，弹出 message.error() 提示                  */
+/*  - 网络/HTTP 错误: 弹出错误提示                                      */
 /* ------------------------------------------------------------------ */
 
 apiClient.interceptors.response.use(
-  /* Success handler — check business-level error code. */
+  /* 成功响应 — 检查业务错误码 */
   (response) => {
     const body = response.data;
 

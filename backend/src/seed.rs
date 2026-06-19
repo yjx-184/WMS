@@ -26,9 +26,10 @@ pub async fn seed_if_empty(pool: &PgPool) {
     }
 }
 
-/// Execute the seed SQL from `backend/migrations/seed.sql` inside a
-/// single transaction. Uses `raw_sql` (simple query protocol) which
-/// supports multiple statements natively.
+/// 在单个事务中执行 `backend/migrations/seed.sql`（编译时嵌入）。
+///
+/// `sqlx::raw_sql` 使用 PostgreSQL simple query 协议原生支持多语句，
+/// 避免手动解析 SQL。事务保证所有插入要么全部成功要么全部回滚。
 pub async fn seed(pool: &PgPool) {
     let sql = include_str!("../migrations/seed.sql");
 

@@ -241,9 +241,10 @@ impl InboundOrderRepository {
         .await
     }
 
-    /// Compare-and-swap: only update if the current status matches `expected`.
-    /// Returns `None` when the row does not exist or the status has changed,
-    /// which the Service interprets as a concurrency conflict.
+    /// CAS 状态更新：仅当当前状态等于 `expected` 时才更新为 `new_status`。
+    ///
+    /// 返回 `None` 表示行不存在或状态不匹配 → Service 层回滚事务。
+    /// 这是防止并发 complete/cancel 的核心机制。
     pub async fn cas_status<'e, E: Executor<'e, Database = Postgres>>(
         executor: E,
         id: Uuid,
