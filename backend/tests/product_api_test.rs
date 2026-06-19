@@ -25,19 +25,13 @@ fn url(addr: SocketAddr, path: &str) -> String {
 #[tokio::test]
 async fn product_crud_and_validation() {
     let (_pool, addr) = setup().await;
+    let sku = format!("TST-{}", uuid::Uuid::new_v4());
 
-    // 1. List (empty)
-    let resp = reqwest::get(url(addr, "/api/v1/products")).await.unwrap();
-    assert_eq!(resp.status(), StatusCode::OK);
-    let body: Value = resp.json().await.unwrap();
-    assert_eq!(body["code"], 0);
-    assert_eq!(body["data"]["items"].as_array().unwrap().len(), 0);
-
-    // 2. Create
+    // 1. Create
     let resp = reqwest::Client::new()
         .post(url(addr, "/api/v1/products"))
         .json(&serde_json::json!({
-            "sku_code": "TST-001",
+            "sku_code": sku,
             "name": "Test Product",
             "unit": "pcs",
             "spec": "Spec A",
@@ -50,15 +44,17 @@ async fn product_crud_and_validation() {
     let body: Value = resp.json().await.unwrap();
     assert_eq!(body["code"], 0);
     let product_id = body["data"]["id"].as_str().unwrap().to_string();
-    assert_eq!(body["data"]["sku_code"], "TST-001");
+    assert_eq!(body["data"]["sku_code"], sku);
     assert_eq!(body["data"]["status"], "active");
 
-    // 3. List (1 row)
-    let resp = reqwest::get(url(addr, "/api/v1/products")).await.unwrap();
+    // 2. List (contains our product)
+    let resp = reqwest::get(url(addr, &format!("/api/v1/products?keyword={}", sku)))
+        .await
+        .unwrap();
     let body: Value = resp.json().await.unwrap();
     assert_eq!(body["data"]["items"].as_array().unwrap().len(), 1);
 
-    // 4. Get by id
+    // 3. Get by id
     let resp = reqwest::get(url(addr, &format!("/api/v1/products/{}", product_id)))
         .await
         .unwrap();
@@ -66,11 +62,11 @@ async fn product_crud_and_validation() {
     let body: Value = resp.json().await.unwrap();
     assert_eq!(body["data"]["name"], "Test Product");
 
-    // 5. Update
+    // 4. Update
     let resp = reqwest::Client::new()
         .put(url(addr, &format!("/api/v1/products/{}", product_id)))
         .json(&serde_json::json!({
-            "sku_code": "TST-001",
+            "sku_code": sku,
             "name": "Updated Product",
             "unit": "box",
             "spec": "Spec B",
@@ -84,11 +80,11 @@ async fn product_crud_and_validation() {
     assert_eq!(body["data"]["name"], "Updated Product");
     assert_eq!(body["data"]["unit"], "box");
 
-    // 6. Duplicate SKU → 409
+    // 5. Duplicate SKU → 409
     let resp = reqwest::Client::new()
         .post(url(addr, "/api/v1/products"))
         .json(&serde_json::json!({
-            "sku_code": "TST-001",
+            "sku_code": sku,
             "name": "Dup",
             "unit": "pcs"
         }))
@@ -99,7 +95,7 @@ async fn product_crud_and_validation() {
     let body: Value = resp.json().await.unwrap();
     assert_eq!(body["code"], 40901);
 
-    // 7. Disable
+    // 6. Disable
     let resp = reqwest::Client::new()
         .patch(url(
             addr,
@@ -113,7 +109,7 @@ async fn product_crud_and_validation() {
     let body: Value = resp.json().await.unwrap();
     assert_eq!(body["data"]["status"], "disabled");
 
-    // 8. Filter by status
+    // 7. Filter by status
     let resp = reqwest::get(url(addr, &format!("/api/v1/products?status=disabled")))
         .await
         .unwrap();
@@ -126,14 +122,14 @@ async fn product_crud_and_validation() {
             .all(|it| it["status"] == "disabled")
     );
 
-    // 9. Keyword search
+    // 8. Keyword search
     let resp = reqwest::get(url(addr, "/api/v1/products?keyword=Updated"))
         .await
         .unwrap();
     let body: Value = resp.json().await.unwrap();
     assert!(body["data"]["items"].as_array().unwrap().len() >= 1);
 
-    // 10. Not found
+    // 9. Not found
     let resp = reqwest::get(url(
         addr,
         "/api/v1/products/00000000-0000-0000-0000-000000000000",
