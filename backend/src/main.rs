@@ -1,13 +1,4 @@
-mod config;
-mod db;
-mod dto;
-mod error;
-mod handler;
-mod middleware;
-mod model;
-mod repository;
-mod router;
-mod service;
+use backend::middleware;
 
 use axum::middleware::from_fn;
 
@@ -15,16 +6,16 @@ use axum::middleware::from_fn;
 async fn main() {
     middleware::init_tracing();
 
-    let config = config::Config::from_env();
+    let config = backend::config::Config::from_env();
 
     println!("Starting WMS backend...");
     println!("DATABASE_URL: {}", config.masked_database_url());
     println!("SERVER_PORT: {}", config.server_port);
 
-    let pool = db::create_pool(&config).await;
-    let state = db::AppState { pool };
+    let pool = backend::db::create_pool(&config).await;
+    let state = backend::db::AppState { pool };
 
-    let app = router::create_router(state)
+    let app = backend::router::create_router(state)
         .layer(from_fn(middleware::request_id))
         .layer(middleware::cors_layer());
 

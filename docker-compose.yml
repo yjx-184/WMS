@@ -11,6 +11,19 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
+  postgres_test:
+    image: postgres:16-alpine
+    container_name: wms-postgres-test
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: wms
+      POSTGRES_PASSWORD: wms123
+      POSTGRES_DB: wms_test
+    volumes:
+      - pgdata_test:/var/lib/postgresql/data
+    restart: unless-stopped
 
 volumes:
   pgdata:
+  pgdata_test:
