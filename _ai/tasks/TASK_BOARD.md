@@ -1,7 +1,7 @@
 ﻿# TASK_BOARD — WMS MVP 任务看板（最终版）
 
 > 生成日期：2026-06-10  
-> 更新日期：2026-06-19（T7.1.2 Review Approve）
+> 更新日期：2026-06-19（T7.1.3 Review Approve）
 > 总估算工时：约 54 小时（按单人全职约 2 周）  
 > 组织形式：Epic → Feature → Task  
 > 每个 Task 均独立可验收，粒度控制在 1~3 小时
@@ -56,12 +56,12 @@ Epic 0 (基础设施)
 ## 当前执行状态
 
 - 当前 Epic：Epic 7 — Testing
-- 当前进度：2/4 Completed
-- 最近通过 Review：TASK_BOARD.md / T7.1.2
-- 最近 Review 结果：TASK_BOARD.md / T7.1.2 Approve（Repair 后通过）
-- 已映射完成任务：T0.1.1、T0.1.2、T0.1.3、T0.2.1、T0.2.2、T0.3.1、T0.3.2、T0.3.3、T0.3.4、T0.3.5、T0.4.1、T0.4.2、T0.4.3、T1.1.1、T1.1.2、T1.2.1、T1.2.2、T2.1.1、T2.1.2、T2.2.1、T3.1.1、T3.1.2、T3.2.1、T4.1.1、T4.1.2、T4.1.3、T4.1.4、T4.2.1、T4.2.2、T4.2.3、T5.1.1、T5.1.2、T5.1.3、T5.1.4、T5.2.1、T5.2.2、T5.2.3、T6.1.1、T6.1.2、T6.2.1、T7.1.1、T7.1.2
-- 下一任务：TASK_BOARD.md / T7.1.3 Inbound Workflow 集成测试
-- 注意：T7.1.2 已通过 Review；下一轮仅允许进入 T7.1.3，不得进入 T7.1.4
+- 当前进度：3/4 Completed
+- 最近通过 Review：TASK_BOARD.md / T7.1.3
+- 最近 Review 结果：TASK_BOARD.md / T7.1.3 Approve（Fix 后通过）
+- 已映射完成任务：T0.1.1、T0.1.2、T0.1.3、T0.2.1、T0.2.2、T0.3.1、T0.3.2、T0.3.3、T0.3.4、T0.3.5、T0.4.1、T0.4.2、T0.4.3、T1.1.1、T1.1.2、T1.2.1、T1.2.2、T2.1.1、T2.1.2、T2.2.1、T3.1.1、T3.1.2、T3.2.1、T4.1.1、T4.1.2、T4.1.3、T4.1.4、T4.2.1、T4.2.2、T4.2.3、T5.1.1、T5.1.2、T5.1.3、T5.1.4、T5.2.1、T5.2.2、T5.2.3、T6.1.1、T6.1.2、T6.2.1、T7.1.1、T7.1.2、T7.1.3
+- 下一任务：TASK_BOARD.md / T7.1.4 Outbound Workflow 集成测试
+- 注意：T7.1.3 已通过 Review；下一轮仅允许进入 T7.1.4，不得进入 Epic 8
 
 ### Feature 0.1 — 项目脚手架
 
@@ -238,7 +238,7 @@ Epic 0 (基础设施)
 |----|--------|----------|-------|----------|------|------|----------|------|
 | T7.1.1 | Done | P1 | Unassigned | Codex | Product API 集成测试 | 2h | 创建商品 → 查询列表含该商品 → 按 ID 查询 → 更新 → SKU 重复创建返回 409 → 禁用后列表过滤正确。使用 `#[tokio::test]` + 测试数据库 | T1.1.2 |
 | T7.1.2 | Done | P0 | Unassigned | Codex | Inventory Service 单元测试 | 2h | `increase_stock()`：插入新库存 → 累加已有库存 → quantity 正确 → 流水记录正确。`decrease_stock()`：正常扣减 → 扣减到 0 → 扣减超过库存返回 Err → 事务回滚后 quantity 不变。流水表 insert 验证 | T4.1.3 |
-| T7.1.3 | Todo | P0 | Unassigned | Codex | Inbound Workflow 集成测试 | 2h | 创建入库单（2 个明细）→ complete 填实收数量 → 验证库存 quantity 增加 → 验证流水表插入 inbound 记录（before/after 正确）→ 入库单 status=completed → 取消已完成入库单 → 库存回滚 → 流水插入 outbound 回滚记录 | T4.1.4 |
+| T7.1.3 | Done | P0 | Unassigned | Codex | Inbound Workflow 集成测试 | 2h | 创建入库单（2 个明细）→ complete 填实收数量 → 验证库存 quantity 增加 → 验证流水表插入 inbound 记录（before/after 正确）→ 入库单 status=completed → 取消已完成入库单 → 库存回滚 → 流水插入 outbound 回滚记录 | T4.1.4 |
 | T7.1.4 | Todo | P0 | Unassigned | Codex | Outbound Workflow 集成测试 | 2h | 先入库建立库存 → 创建出库单 → complete（数量≤库存）→ 库存扣减正确 → 流水 outbound 记录 → 再创建出库单（数量>库存）→ complete 返回 422 → 库存未变化（事务回滚）→ 取消已完成出库单 → 库存回滚 | T5.1.4 |
 
 ---
