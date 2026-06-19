@@ -82,7 +82,7 @@ npm install
 npm run dev
 ```
 
-Vite 默认提供 `http://localhost:5173`。前端 API 地址使用相对路径 `/api/v1`；因此浏览器访问前端时，需要由反向代理把 `/api/` 转发到后端，或者在本地 Vite 配置中增加同等的开发代理。下一节提供无需改动业务代码的 Nginx 配置。
+Vite 默认提供 `http://localhost:5173`。项目已预置开发代理：前端对 `/api/v1` 的请求会自动转发到 `http://localhost:3000`。完成前两步后，直接打开 `http://localhost:5173` 即可使用系统。
 
 ## 通过 Nginx 访问完整系统
 
